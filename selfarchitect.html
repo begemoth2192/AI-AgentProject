@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#051C36">
+<title>SelfArchitect — Know Yourself. Build Your Life.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --navy:#051C36;--navy2:#0A3D6B;--blue:#1565C0;--blue2:#1E88E5;--blue-pale:#E8F4FD;
+  --red:#8B1515;--red2:#9B1C1C;--red3:#B71C1C;
+  --gold:#C9920A;--gold-bg:#FEF3D0;
+  --white:#FFFFFF;--off:#F7F8FA;--border:#E4E8EF;
+  --txt:#0D1B2A;--muted:#6B7A8D;--dim:#9BA5B4;
+  --success:#2E7D32;--success-bg:#E8F5E9;
+  --radius:14px;--radius-sm:10px;--radius-xl:22px;
+  --shadow:0 2px 16px rgba(5,28,54,.10);--shadow-lg:0 8px 40px rgba(5,28,54,.18);
+  --font-display:'Playfair Display',Georgia,serif;
+  --font:'DM Sans',system-ui,sans-serif;
+}
+html{height:100%;overscroll-behavior:none;}
+body{font-family:var(--font);background:var(--off);color:var(--txt);min-height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* SCREEN SYSTEM */
+.screen{display:none;flex-direction:column;min-height:100vh;position:relative;}
+.screen.active{display:flex;}
+.screen.fade-in{animation:fadeUp .35s cubic-bezier(.22,.61,.36,1) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:scale(1)}40%{transform:scale(1.18)}70%{transform:scale(.94)}}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+@keyframes progressGrow{from{width:0}to{width:var(--w)}}
+@keyframes pointsPop{0%{opacity:0;transform:translateY(8px) scale(.8)}30%{transform:translateY(-8px) scale(1.1)}70%{transform:translateY(-4px) scale(1)}100%{opacity:0;transform:translateY(-24px) scale(.9)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes crisisSlide{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkmark{0%{stroke-dashoffset:40}100%{stroke-dashoffset:0}}
+
+/* TYPOGRAPHY */
+h1,h2{font-family:var(--font-display);}
+.font-display{font-family:var(--font-display);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font);font-size:15px;font-weight:600;border:none;border-radius:50px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .2s ease;letter-spacing:.2px;text-decoration:none;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--red2);color:#fff;padding:16px 40px;box-shadow:0 4px 16px rgba(139,21,21,.35);}
+.btn-primary:hover{background:var(--red3);box-shadow:0 6px 24px rgba(139,21,21,.45);transform:translateY(-1px);}
+.btn-secondary{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.22);padding:13px 28px;}
+.btn-secondary:hover{background:rgba(255,255,255,.2);}
+.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--border);padding:13px 24px;color:var(--txt);}
+.btn-outline:hover{border-color:var(--blue);background:var(--blue-pale);}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#E6A318);color:#fff;padding:14px 32px;box-shadow:0 4px 16px rgba(201,146,10,.3);}
+.btn-full{width:100%;}
+
+/* INPUTS */
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.form-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
+.form-input{padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:var(--font);color:var(--txt);background:#fff;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--blue);}
+.form-input::placeholder{color:var(--dim);}
+
+/* CARDS */
+.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:20px;}
+.card-deep{background:linear-gradient(150deg,var(--navy) 0%,var(--navy2) 60%,#0D4F8C 100%);border-radius:var(--radius-xl);padding:24px;position:relative;overflow:hidden;}
+.card-deep::before{content:'';position:absolute;width:280px;height:280px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 65%);top:-100px;right:-80px;pointer-events:none;}
+
+/* LOGO */
+.logo-mark svg{display:block;}
+.logo-word{font-family:var(--font-display);font-weight:600;letter-spacing:-.3px;}
+.logo-word .accent{color:#D4A017;}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;align-items:center;padding:8px 0 env(safe-area-inset-bottom, 12px);z-index:200;}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;border:none;background:transparent;transition:opacity .2s;}
+.nav-tab svg,.nav-tab .nav-ico{color:var(--dim);transition:color .2s;}
+.nav-tab .nav-lbl{font-size:10px;font-weight:500;color:var(--dim);transition:color .2s;}
+.nav-tab.active .nav-ico,.nav-tab.active svg{color:var(--blue);}
+.nav-tab.active .nav-lbl{color:var(--blue);}
+.nav-ico{font-size:20px;line-height:1;}
+
+/* POINTS BADGE */
+.pts-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-bg);border:1px solid rgba(201,146,10,.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--gold);}
+.pts-pop{position:fixed;top:60px;right:16px;background:var(--gold-bg);border:1px solid rgba(201,146,10,.3);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:600;color:var(--gold);pointer-events:none;z-index:999;animation:pointsPop 2s ease forwards;}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;color:var(--dim);font-size:12px;margin:16px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* =================== LANDING =================== */
+#s-landing{background:linear-gradient(165deg,var(--navy) 0%,var(--navy2) 45%,#0A4A7A 70%,#0E5FA3 100%);justify-content:space-between;min-height:100svh;}
+.land-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;position:relative;z-index:2;}
+.land-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 28px 32px;position:relative;z-index:2;}
+.land-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:7px 16px;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:28px;animation:fadeIn .6s .2s both;}
+.land-title{font-family:var(--font-display);font-size:clamp(36px,9vw,58px);color:#fff;line-height:1.12;letter-spacing:-.8px;margin-bottom:16px;animation:slideUp .6s .3s both;}
+.land-title em{color:#EDB94A;font-style:italic;}
+.land-sub{font-size:clamp(14px,3.5vw,17px);color:rgba(255,255,255,.68);line-height:1.65;max-width:360px;margin:0 auto 40px;animation:slideUp .6s .4s both;font-weight:300;}
+.land-cta{animation:slideUp .6s .5s both;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.land-note{font-size:12px;color:rgba(255,255,255,.38);letter-spacing:.3px;}
+.land-stats{display:flex;justify-content:center;gap:0;padding:24px 24px calc(24px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.08);position:relative;z-index:2;animation:fadeIn .6s .7s both;}
+.stat-item{flex:1;text-align:center;padding:0 12px;}
+.stat-item+.stat-item{border-left:1px solid rgba(255,255,255,.1);}
+.stat-num{font-family:var(--font-display);font-size:24px;font-weight:600;color:#fff;}
+.stat-lbl{font-size:11px;color:rgba(255,255,255,.42);margin-top:2px;}
+
+/* =================== CONSENT =================== */
+#s-consent{background:var(--off);align-items:center;justify-content:center;padding:24px;}
+.consent-wrap{width:100%;max-width:420px;}
+.consent-header{text-align:center;margin-bottom:32px;}
+.consent-header h2{font-size:24px;margin-bottom:8px;}
+.consent-header p{color:var(--muted);font-size:14px;line-height:1.6;}
+.consent-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:20px;margin-bottom:12px;}
+.consent-row{display:flex;align-items:flex-start;gap:14px;}
+.consent-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:#fff;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
+.consent-checkbox.checked{background:var(--blue);border-color:var(--blue);}
+.consent-row p{font-size:14px;color:var(--txt);line-height:1.5;}
+.consent-row p span{color:var(--muted);font-size:13px;display:block;margin-top:2px;}
+
+/* =================== AUTH =================== */
+#s-auth{background:var(--off);align-items:center;justify-content:center;padding:24px;}
+.auth-wrap{width:100%;max-width:420px;}
+.auth-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:24px;transition:color .2s;}
+.auth-back:hover{color:var(--blue);}
+.auth-card{background:#fff;border-radius:var(--radius-xl);border:1px solid var(--border);padding:32px 28px;box-shadow:var(--shadow-lg);}
+.auth-header{text-align:center;margin-bottom:28px;}
+.auth-header h2{font-size:24px;margin-bottom:6px;}
+.auth-header p{color:var(--muted);font-size:14px;}
+.btn-google{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:500;color:var(--txt);cursor:pointer;transition:all .2s;font-family:var(--font);}
+.btn-google:hover{border-color:var(--blue);background:var(--blue-pale);}
+.g-dot{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4285F4 0%,#34A853 50%,#EA4335 100%);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;flex-shrink:0;}
+
+/* =================== QUIZ =================== */
+#s-quiz{background:var(--off);}
+.quiz-head{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:16px 20px 24px;}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.quiz-step{font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.4px;}
+.quiz-skip{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;cursor:pointer;font-family:var(--font);transition:all .2s;}
+.quiz-skip:hover{background:rgba(255,255,255,.18);}
+.progress-bar{background:rgba(255,255,255,.15);height:4px;border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#EDB94A,#F5C842);border-radius:2px;transition:width .5s cubic-bezier(.22,.61,.36,1);}
+.quiz-body{flex:1;padding:28px 20px 100px;max-width:560px;margin:0 auto;width:100%;}
+.q-category{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px;}
+.q-text{font-family:var(--font-display);font-size:clamp(20px,5vw,26px);color:var(--txt);line-height:1.3;margin-bottom:28px;}
+.q-opts{display:flex;flex-direction:column;gap:10px;}
+.q-opt{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:15px 16px;font-size:14px;color:var(--txt);cursor:pointer;display:flex;align-items:center;gap:12px;font-family:var(--font);transition:all .2s;text-align:left;animation:slideUp .25s both;}
+.q-opt:nth-child(1){animation-delay:.04s}
+.q-opt:nth-child(2){animation-delay:.08s}
+.q-opt:nth-child(3){animation-delay:.12s}
+.q-opt:nth-child(4){animation-delay:.16s}
+.q-opt:nth-child(5){animation-delay:.2s}
+.q-opt:hover{border-color:var(--blue);background:var(--blue-pale);transform:translateX(3px);}
+.q-opt.selected{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}
+.q-opt.selected .opt-circle{background:var(--blue);border-color:var(--blue);}
+.q-opt.correct{border-color:var(--success);background:var(--success-bg);}
+.opt-circle{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:11px;font-weight:600;color:var(--muted);}
+.opt-circle.sel{background:var(--blue);border-color:var(--blue);color:#fff;}
+.quiz-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:center;z-index:100;}
+.quiz-footer-inner{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:560px;margin:0 auto;}
+
+/* =================== ANALYSIS =================== */
+#s-analysis{background:linear-gradient(165deg,var(--navy),var(--navy2),#0D5FA3);align-items:center;justify-content:center;text-align:center;padding:40px 28px;}
+.an-icon-wrap{width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;animation:pulse 2s infinite;}
+.an-title{font-family:var(--font-display);font-size:30px;color:#fff;margin-bottom:10px;}
+.an-subtitle{font-size:14px;color:rgba(255,255,255,.6);max-width:280px;line-height:1.6;margin-bottom:40px;font-weight:300;}
+.an-steps{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;}
+.an-step{display:flex;align-items:center;gap:13px;padding:12px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-sm);text-align:left;color:rgba(255,255,255,.75);font-size:13px;}
+.step-indicator{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.2);transition:all .4s;}
+.step-indicator.active{background:#EDB94A;box-shadow:0 0 0 4px rgba(237,185,74,.25);}
+.step-indicator.done{background:#66BB6A;}
+
+/* =================== DASHBOARD =================== */
+#s-dashboard{background:var(--off);padding-bottom:72px;}
+.dash-header{background:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.dash-logo{display:flex;align-items:center;gap:8px;}
+.dash-right{display:flex;align-items:center;gap:10px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;cursor:pointer;flex-shrink:0;}
+.dash-scroll{padding:20px 16px;max-width:600px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;}
+.greeting-time{font-size:11px;font-weight:600;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-bottom:2px;}
+.greeting-name{font-family:var(--font-display);font-size:26px;color:var(--txt);line-height:1.2;}
+.archetype-desc{font-size:13px;color:rgba(255,255,255,.68);line-height:1.55;margin:8px 0 14px;font-weight:300;}
+.archetype-title{font-family:var(--font-display);font-size:20px;color:#fff;margin-bottom:2px;}
+.archetype-tag{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:4px;}
+.traits-row{display:flex;gap:7px;flex-wrap:wrap;}
+.trait-pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:5px 13px;font-size:11px;font-weight:500;color:rgba(255,255,255,.85);}
+.chat-cta{background:var(--red2);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;}
+.chat-cta:hover,.chat-cta:active{background:var(--red3);transform:translateY(-1px);box-shadow:0 4px 16px rgba(139,21,21,.3);}
+.chat-cta-left h3{font-size:15px;font-weight:600;color:#fff;margin-bottom:3px;}
+.chat-cta-left p{font-size:12px;color:rgba(255,255,255,.7);}
+.cta-arrow{font-size:22px;color:rgba(255,255,255,.7);}
+.section-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase;margin-bottom:12px;}
+.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.focus-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;}
+.focus-card:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(21,101,192,.1);transform:translateY(-2px);}
+.focus-icon{font-size:22px;margin-bottom:7px;line-height:1;}
+.focus-label{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px;}
+.focus-sub{font-size:11px;color:var(--muted);}
+
+/* =================== CHAT (iMessage) =================== */
+#s-chat{background:#F2F2F7;padding-bottom:0;}
+.chat-header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,0,0,.06);position:sticky;top:0;z-index:200;}
+.chat-back-btn{background:none;border:none;padding:6px;cursor:pointer;color:var(--blue);font-size:16px;font-weight:500;font-family:var(--font);display:flex;align-items:center;gap:3px;transition:opacity .2s;}
+.chat-back-btn:hover{opacity:.7;}
+.sage-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sage-info{flex:1;}
+.sage-name{font-size:15px;font-weight:600;color:var(--txt);}
+.sage-status{font-size:12px;color:#34C759;display:flex;align-items:center;gap:4px;}
+.sage-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#34C759;display:inline-block;}
+.premium-ico{color:var(--gold);font-size:16px;cursor:pointer;}
+.chat-messages{flex:1;overflow-y:auto;padding:16px 12px 130px;display:flex;flex-direction:column;gap:4px;max-width:600px;margin:0 auto;width:100%;}
+.msg-group{display:flex;flex-direction:column;gap:2px;margin-bottom:8px;}
+.msg-group.user{align-items:flex-end;}
+.msg-group.sage{align-items:flex-start;}
+.msg-row{display:flex;align-items:flex-end;gap:8px;}
+.msg-row.user{flex-direction:row-reverse;}
+.msg-sage-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;}
+.msg-sage-av.hidden{visibility:hidden;}
+.bubble{padding:10px 14px;max-width:75%;font-size:14px;line-height:1.55;position:relative;animation:slideUp .22s ease both;}
+.bubble.sage-bubble{background:#fff;border-radius:18px 18px 18px 4px;color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.bubble.user-bubble{background:#1565C0;border-radius:18px 18px 4px 18px;color:#fff;}
+.bubble.typing-bubble{background:#fff;border-radius:18px 18px 18px 4px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.typing-dots{display:flex;gap:4px;align-items:center;padding:2px 0;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--dim);animation:typingDot 1.4s infinite;}
+.dot:nth-child(2){animation-delay:.2s;}
+.dot:nth-child(3){animation-delay:.4s;}
+.msg-time{font-size:10px;color:var(--dim);padding:2px 4px;}
+.msg-time.user{text-align:right;}
+.sage-section{margin-bottom:6px;}
+.sage-section-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;}
+.sage-section-text{font-size:14px;line-height:1.55;color:var(--txt);}
+.date-divider{text-align:center;font-size:11px;color:var(--dim);padding:8px 0 4px;}
+.chat-input-area{position:fixed;bottom:0;left:0;right:0;background:rgba(242,242,247,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,.07);padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));z-index:200;}
+.chips-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;max-width:600px;margin:0 auto;}
+.chips-row::-webkit-scrollbar{display:none;}
+.chip{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--txt);white-space:nowrap;cursor:pointer;transition:all .18s;font-family:var(--font);flex-shrink:0;}
+.chip:hover{border-color:var(--blue);color:var(--blue);}
+.input-row{display:flex;gap:8px;align-items:flex-end;max-width:600px;margin:0 auto;}
+.chat-textarea{flex:1;background:#fff;border:1px solid var(--border);border-radius:22px;padding:10px 16px;font-size:15px;font-family:var(--font);resize:none;outline:none;max-height:110px;line-height:1.4;color:var(--txt);transition:border-color .2s;}
+.chat-textarea:focus{border-color:var(--blue);}
+.send-btn{width:38px;height:38px;border-radius:50%;background:var(--blue);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.send-btn:hover{background:var(--navy2);}
+.send-btn:disabled{background:var(--dim);cursor:not-allowed;}
+.send-btn svg{color:#fff;}
+
+/* CRISIS PANEL */
+.crisis-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.18);padding:24px 20px calc(24px + env(safe-area-inset-bottom,0px));z-index:500;animation:crisisSlide .4s cubic-bezier(.22,.61,.36,1);}
+.crisis-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.crisis-title{font-size:17px;font-weight:600;color:var(--txt);}
+.crisis-msg{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
+.crisis-lines{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.crisis-line{display:flex;align-items:center;justify-content:space-between;background:var(--blue-pale);border:1px solid rgba(21,101,192,.15);border-radius:var(--radius-sm);padding:12px 14px;}
+.crisis-line-info h4{font-size:13px;font-weight:600;color:var(--navy);}
+.crisis-line-info p{font-size:12px;color:var(--muted);}
+.crisis-call{background:var(--blue);color:#fff;border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);white-space:nowrap;}
+
+/* =================== PRICING =================== */
+#s-pricing{background:var(--off);padding-bottom:72px;}
+.pricing-header{background:linear-gradient(150deg,var(--navy),var(--navy2));padding:40px 20px 60px;text-align:center;}
+.pricing-header h2{font-family:var(--font-display);font-size:28px;color:#fff;margin-bottom:8px;}
+.pricing-header p{font-size:14px;color:rgba(255,255,255,.65);max-width:300px;margin:0 auto;font-weight:300;}
+.pricing-cards{padding:0 16px;margin-top:-36px;display:flex;flex-direction:column;gap:12px;max-width:480px;margin-left:auto;margin-right:auto;padding-top:0;}
+.price-card{background:#fff;border-radius:var(--radius-xl);border:2px solid var(--border);padding:22px;transition:all .2s;position:relative;overflow:hidden;}
+.price-card.featured{border-color:var(--blue);box-shadow:0 4px 24px rgba(21,101,192,.2);}
+.price-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.price-badge{display:inline-block;background:var(--blue);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.price-badge.gold{background:linear-gradient(135deg,var(--gold),#E6A318);}
+.price-tier-name{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.price-amount{display:flex;align-items:baseline;gap:4px;margin-bottom:4px;}
+.price-num{font-family:var(--font-display);font-size:36px;font-weight:600;color:var(--txt);}
+.price-period{font-size:13px;color:var(--muted);}
+.price-tagline{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.price-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt);}
+.check-ico{width:18px;height:18px;border-radius:50%;background:var(--success-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--success);font-size:10px;}
+
+/* =================== SETTINGS =================== */
+#s-settings{background:var(--off);padding-bottom:72px;}
+.settings-header{background:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.settings-title{font-size:16px;font-weight:600;color:var(--txt);}
+.set-scroll{padding:16px;max-width:600px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:12px;}
+.set-profile-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:var(--radius-xl);padding:20px;display:flex;align-items:center;gap:16px;}
+.set-av-lg{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#fff;flex-shrink:0;}
+.set-user-info h3{font-size:17px;color:#fff;margin-bottom:2px;}
+.set-user-info p{font-size:12px;color:rgba(255,255,255,.6);}
+.set-section{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;}
+.set-section-title{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.8px;text-transform:uppercase;padding:12px 16px 6px;}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.set-row:hover{background:var(--off);}
+.set-row:first-of-type{border-top:none;}
+.set-row-left{display:flex;align-items:center;gap:12px;}
+.set-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.set-icon.blue{background:#E8F4FD;}
+.set-icon.red{background:#FFEBEE;}
+.set-icon.gold{background:var(--gold-bg);}
+.set-icon.green{background:var(--success-bg);}
+.set-row-label{font-size:14px;color:var(--txt);}
+.set-row-val{font-size:13px;color:var(--dim);}
+.api-input-wrap{padding:0 16px 14px;}
+.api-note{font-size:11px;color:var(--muted);line-height:1.5;padding:10px 16px;background:var(--off);border-top:1px solid var(--border);}
+.set-disclaimer{text-align:center;padding:16px;font-size:11px;color:var(--dim);line-height:1.6;}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+  .land-hero{padding:32px 40px 48px;}
+  .land-title{font-size:58px;}
+  .quiz-body{padding:32px 28px 120px;}
+  .chat-messages{padding:20px 16px 140px;}
+}
+</style>
+</head>
+<body>
+
+<!-- =================== LANDING =================== -->
+<div id="s-landing" class="screen active fade-in">
+  <nav class="land-nav">
+    <div class="logo-mark">
+      <svg width="130" height="32" viewBox="0 0 130 32" fill="none">
+        <g>
+          <line x1="16" y1="5" x2="9" y2="27" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+          <line x1="16" y1="5" x2="23" y2="27" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="5" r="2.2" fill="#EDB94A"/>
+          <line x1="11.5" y1="17" x2="20.5" y2="17" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M9 27 Q16 22.5 23 27" stroke="#EDB94A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        </g>
+        <text x="32" y="22" font-family="'Playfair Display',serif" font-size="18" font-weight="600" fill="white" letter-spacing="-0.3">Self</text>
+        <text x="63" y="22" font-family="'Playfair Display',serif" font-size="18" font-weight="600" fill="#EDB94A" letter-spacing="-0.3">Architect</text>
+      </svg>
+    </div>
+  </nav>
+  <div class="land-hero">
+    <div class="land-eyebrow">✦ AI-Powered Self Discovery</div>
+    <h1 class="land-title">Understand<br><em>Yourself.</em><br>Build Your Life.</h1>
+    <p class="land-sub">Most people never truly understand themselves. Take the test. Discover your mind. Begin your transformation.</p>
+    <div class="land-cta">
+      <button class="btn btn-primary" style="font-size:16px;padding:18px 60px;letter-spacing:.5px;" onclick="goTo('s-consent')">START</button>
+      <span class="land-note">Free · No credit card · 5 minutes</span>
+    </div>
+  </div>
+  <div class="land-stats">
+    <div class="stat-item"><div class="stat-num">14,200+</div><div class="stat-lbl">Lives Changed</div></div>
+    <div class="stat-item"><div class="stat-num">96%</div><div class="stat-lbl">Feel Understood</div></div>
+    <div class="stat-item"><div class="stat-num">Adaptive</div><div class="stat-lbl">Assessment</div></div>
+  </div>
+</div>
+
+<!-- =================== CONSENT =================== -->
+<div id="s-consent" class="screen">
+  <div style="padding:24px;flex:1;display:flex;align-items:center;justify-content:center;">
+    <div class="consent-wrap">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;cursor:pointer;" onclick="goTo('s-landing')">
+        <span style="color:var(--blue);font-size:14px;">←</span>
+        <span style="color:var(--muted);font-size:13px;">Back</span>
+      </div>
+      <div class="consent-header">
+        <div style="margin-bottom:16px;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <rect width="44" height="44" rx="14" fill="#E8F4FD"/>
+            <line x1="22" y1="10" x2="14" y2="34" stroke="#1565C0" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="22" y1="10" x2="30" y2="34" stroke="#1565C0" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="22" cy="10" r="2.5" fill="#C9920A"/>
+            <line x1="16.5" y1="23" x2="27.5" y2="23" stroke="rgba(21,101,192,.4)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>Before We Begin</h2>
+        <p>Two quick things to confirm so we can personalize your experience safely.</p>
+      </div>
+      <div class="consent-card" style="margin-bottom:12px;">
+        <div class="consent-row">
+          <div class="consent-checkbox" id="age-check" onclick="toggleConsent('age-check','age-ok')">
+            <svg id="age-ok" width="12" height="12" viewBox="0 0 12 12" style="display:none;"><path d="M2 6 L5 9 L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <div>
+            <p style="font-weight:500;">I confirm I am 16 years or older</p>
+            <p><span>SelfArchitect is designed for users aged 16 and above.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="consent-card" style="margin-bottom:24px;">
+        <div class="consent-row">
+          <div class="consent-checkbox" id="gdpr-check" onclick="toggleConsent('gdpr-check','gdpr-ok')">
+            <svg id="gdpr-ok" width="12" height="12" viewBox="0 0 12 12" style="display:none;"><path d="M2 6 L5 9 L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <div>
+            <p style="font-weight:500;">I agree to the Privacy Policy & Data Use</p>
+            <p><span>Your data is used only to personalize your experience. Inactive accounts are deleted after 14 days for your privacy.</span></p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" id="consent-btn" onclick="checkConsent()" style="opacity:.5;pointer-events:none;">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== AUTH =================== -->
+<div id="s-auth" class="screen">
+  <div style="padding:24px;flex:1;display:flex;align-items:center;justify-content:center;">
+    <div class="auth-wrap">
+      <div class="auth-back" onclick="goTo('s-consent')">← Back</div>
+      <div class="auth-card">
+        <div class="auth-header">
+          <div style="margin-bottom:12px;">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="11" fill="#051C36"/>
+              <line x1="18" y1="7" x2="11" y2="29" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="18" y1="7" x2="25" y2="29" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="18" cy="7" r="2" fill="#EDB94A"/>
+              <line x1="13.5" y1="19" x2="22.5" y2="19" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h2>Create Your Account</h2>
+          <p>Your journey to self-understanding starts here.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" type="text" id="auth-name" placeholder="What should Sage call you?" autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="auth-email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="auth-pass" placeholder="At least 8 characters" autocomplete="new-password">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="doSignup()" style="margin-top:6px;">Create Account →</button>
+        <div class="divider">or</div>
+        <button class="btn-google">
+          <div class="g-dot">G</div>
+          Continue with Google
+        </button>
+        <p style="text-align:center;margin-top:16px;font-size:12px;color:var(--dim);">Already have an account? <span style="color:var(--blue);cursor:pointer;font-weight:500;">Sign in</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== QUIZ =================== -->
+<div id="s-quiz" class="screen">
+  <div class="quiz-head">
+    <div class="quiz-top">
+      <span class="quiz-step" id="q-step">Question 1</span>
+      <button class="quiz-skip" onclick="skipQuiz()">Skip assessment →</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="q-progress" style="width:7%"></div></div>
+  </div>
+  <div class="quiz-body" id="quiz-body">
+    <div class="q-category" id="q-cat"></div>
+    <h2 class="q-text" id="q-text"></h2>
+    <div class="q-opts" id="q-opts"></div>
+  </div>
+  <div class="quiz-footer">
+    <div class="quiz-footer-inner">
+      <button class="btn btn-outline" onclick="prevQ()" id="q-back-btn" style="visibility:hidden;padding:11px 22px;">← Back</button>
+      <button class="btn btn-primary" onclick="nextQ()" id="q-next-btn" style="padding:12px 32px;">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ANALYSIS =================== -->
+<div id="s-analysis" class="screen">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px;">
+    <div class="an-icon-wrap">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+        <line x1="22" y1="6" x2="13" y2="38" stroke="rgba(255,255,255,.9)" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="22" y1="6" x2="31" y2="38" stroke="rgba(255,255,255,.9)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="22" cy="6" r="3" fill="#EDB94A"/>
+        <line x1="15.5" y1="24" x2="28.5" y2="24" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M13 38 Q22 33 31 38" stroke="#EDB94A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <h2 class="an-title">Building Your Profile</h2>
+    <p class="an-subtitle">Sage is analyzing your responses to understand who you truly are.</p>
+    <div class="an-steps">
+      <div class="an-step"><div class="step-indicator done" id="st1"></div><span id="stl1">Reading your personality patterns</span></div>
+      <div class="an-step"><div class="step-indicator active" id="st2"></div><span id="stl2">Identifying your core motivators</span></div>
+      <div class="an-step"><div class="step-indicator" id="st3"></div><span id="stl3">Selecting your therapeutic framework</span></div>
+      <div class="an-step"><div class="step-indicator" id="st4"></div><span id="stl4">Calibrating Sage to your profile</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== DASHBOARD =================== -->
+<div id="s-dashboard" class="screen">
+  <div class="dash-header">
+    <div class="dash-logo">
+      <svg width="110" height="26" viewBox="0 0 110 26" fill="none">
+        <line x1="12" y1="4" x2="7" y2="22" stroke="#051C36" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="12" y1="4" x2="17" y2="22" stroke="#051C36" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="12" cy="4" r="1.8" fill="#C9920A"/>
+        <line x1="8.5" y1="14" x2="15.5" y2="14" stroke="rgba(5,28,54,.35)" stroke-width="1.4" stroke-linecap="round"/>
+        <text x="24" y="18" font-family="'Playfair Display',serif" font-size="15" font-weight="600" fill="#051C36">Self</text>
+        <text x="48" y="18" font-family="'Playfair Display',serif" font-size="15" font-weight="600" fill="#C9920A">Architect</text>
+      </svg>
+    </div>
+    <div class="dash-right">
+      <div class="pts-badge" id="pts-display">⭐ <span id="pts-val">100</span> pts</div>
+      <div class="user-avatar" id="dash-av" onclick="goTo('s-settings')">A</div>
+    </div>
+  </div>
+  <div class="dash-scroll" style="padding-bottom:88px;">
+    <div>
+      <div class="greeting-time" id="greet-time">GOOD MORNING</div>
+      <div class="greeting-name" id="greet-name">Welcome back, Alex 👋</div>
+    </div>
+    <div class="card-deep">
+      <div class="archetype-tag" id="d-arch-tag">YOUR ARCHETYPE</div>
+      <div class="archetype-title" id="d-arch-name">The Emerging Architect</div>
+      <div class="archetype-desc" id="d-arch-desc">You are at a pivotal moment of self-design. With the right tools and clarity, you have extraordinary capacity to rebuild your life.</div>
+      <div class="traits-row" id="d-traits">
+        <span class="trait-pill">Reflective</span>
+        <span class="trait-pill">Growth-Oriented</span>
+        <span class="trait-pill">Purpose-Seeking</span>
+      </div>
+    </div>
+    <div class="chat-cta" onclick="goTo('s-chat')">
+      <div class="chat-cta-left">
+        <h3>Talk to Sage</h3>
+        <p>Your AI mentor is ready for you</p>
+      </div>
+      <div class="cta-arrow">→</div>
+    </div>
+    <div>
+      <div class="section-title">YOUR FOCUS AREAS</div>
+      <div class="focus-grid" id="focus-grid">
+        <div class="focus-card" onclick="sendTopic('Help me build better discipline')"><div class="focus-icon">🎯</div><div class="focus-label" id="fc1">Discipline</div><div class="focus-sub">Build consistency</div></div>
+        <div class="focus-card" onclick="sendTopic('Help me manage my anxiety and emotions')"><div class="focus-icon">🧘</div><div class="focus-label" id="fc2">Inner Peace</div><div class="focus-sub">Reduce anxiety</div></div>
+        <div class="focus-card" onclick="sendTopic('Help me find my life purpose')"><div class="focus-icon">🚀</div><div class="focus-label" id="fc3">Purpose</div><div class="focus-sub">Find direction</div></div>
+        <div class="focus-card" onclick="sendTopic('Help me build confidence')"><div class="focus-icon">💪</div><div class="focus-label" id="fc4">Confidence</div><div class="focus-sub">Trust yourself</div></div>
+      </div>
+    </div>
+    <div class="card" style="background:var(--gold-bg);border-color:rgba(201,146,10,.2);">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:3px;">⭐ YOUR POINTS</div>
+          <div style="font-size:14px;color:var(--txt);">Complete goals to unlock Premium features</div>
+        </div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:600;color:var(--gold);" id="pts-big">100</div>
+      </div>
+      <div style="margin-top:10px;background:rgba(201,146,10,.12);height:6px;border-radius:3px;overflow:hidden;">
+        <div style="height:100%;background:var(--gold);border-radius:3px;width:10%;transition:width .8s ease;" id="pts-bar"></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;">900 pts until 1 month free Premium</div>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="nav-tab active" onclick="navTab(this,'s-dashboard')"><span class="nav-ico">🏠</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-chat')"><span class="nav-ico">💬</span><span class="nav-lbl">Sage</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-pricing')"><span class="nav-ico">⚡</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-settings')"><span class="nav-ico">⚙️</span><span class="nav-lbl">Settings</span></button>
+  </nav>
+</div>
+
+<!-- =================== CHAT =================== -->
+<div id="s-chat" class="screen">
+  <div class="chat-header">
+    <button class="chat-back-btn" onclick="goTo('s-dashboard')">← Back</button>
+    <div class="sage-av">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <line x1="11" y1="3" x2="6" y2="19" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="11" y1="3" x2="16" y2="19" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="11" cy="3" r="1.6" fill="#EDB94A"/>
+        <line x1="7.5" y1="12" x2="14.5" y2="12" stroke="rgba(255,255,255,.5)" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="sage-info">
+      <div class="sage-name">Sage</div>
+      <div class="sage-status">Available now</div>
+    </div>
+    <span class="premium-ico" onclick="goTo('s-pricing')" title="Upgrade">⭐</span>
+  </div>
+  <div class="chat-messages" id="chat-msgs">
+    <div class="date-divider">Today</div>
+  </div>
+  <div class="chat-input-area">
+    <div class="chips-row" id="chips-row">
+      <span class="chip" onclick="chipSend(this)">I can't stay disciplined</span>
+      <span class="chip" onclick="chipSend(this)">Build my life plan</span>
+      <span class="chip" onclick="chipSend(this)">I feel anxious</span>
+      <span class="chip" onclick="chipSend(this)">How do I build habits?</span>
+      <span class="chip" onclick="chipSend(this)">I feel lost</span>
+      <span class="chip" onclick="chipSend(this)">Build my confidence</span>
+    </div>
+    <div class="input-row">
+      <textarea class="chat-textarea" id="chat-input" placeholder="Ask Sage anything..." rows="1" oninput="autoResize(this)" onkeydown="chatKeydown(event)"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14 L14 8 L2 2 L2 7 L10 8 L2 9 Z" fill="currentColor" stroke="none"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Crisis Panel (hidden by default) -->
+  <div class="crisis-panel" id="crisis-panel" style="display:none;">
+    <div class="crisis-header">
+      <span style="font-size:24px;">🫶</span>
+      <div class="crisis-title">You're not alone</div>
+    </div>
+    <div class="crisis-msg" id="crisis-msg">I hear you, and I'm really glad you reached out. What you're feeling matters deeply — please know that support is available right now.</div>
+    <div class="crisis-lines">
+      <div class="crisis-line"><div class="crisis-line-info"><h4>988 Suicide & Crisis Lifeline</h4><p>US · Call or text 988 · 24/7 free</p></div><button class="crisis-call" onclick="window.open('tel:988')">Call</button></div>
+      <div class="crisis-line"><div class="crisis-line-info"><h4>Samaritans</h4><p>UK & Ireland · 116 123 · 24/7 free</p></div><button class="crisis-call" onclick="window.open('tel:116123')">Call</button></div>
+      <div class="crisis-line"><div class="crisis-line-info"><h4>Crisis Text Line</h4><p>Text HOME to 741741 · Free</p></div><button class="crisis-call">Text</button></div>
+    </div>
+    <button class="btn btn-outline btn-full" onclick="dismissCrisis()">Continue talking to Sage</button>
+  </div>
+</div>
+
+<!-- =================== PRICING =================== -->
+<div id="s-pricing" class="screen">
+  <div class="pricing-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <button style="background:none;border:none;color:rgba(255,255,255,.7);font-size:14px;cursor:pointer;font-family:var(--font);" onclick="goTo('s-dashboard')">← Back</button>
+      <div></div>
+    </div>
+    <h2>Your Plan</h2>
+    <p>Start free. Upgrade when you're ready. Points you earn lower the price.</p>
+  </div>
+  <div class="pricing-cards" style="padding-top:0;margin-top:-32px;">
+    <div class="price-card">
+      <div class="price-tier-name">Free</div>
+      <div class="price-amount"><span class="price-num">$0</span><span class="price-period">forever</span></div>
+      <div class="price-tagline">Start your self-discovery journey</div>
+      <ul class="price-features">
+        <li><span class="check-ico">✓</span>10 messages per day with Sage</li>
+        <li><span class="check-ico">✓</span>Basic personality profile</li>
+        <li><span class="check-ico">✓</span>Adaptive assessment</li>
+        <li><span class="check-ico">✓</span>Core focus areas</li>
+      </ul>
+      <button class="btn btn-outline btn-full" style="opacity:.6;cursor:default;">Current Plan</button>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">MOST POPULAR</div>
+      <div class="price-tier-name">Monthly</div>
+      <div class="price-amount"><span class="price-num">$9.99</span><span class="price-period">/month</span></div>
+      <div class="price-tagline">Full access, cancel anytime</div>
+      <ul class="price-features">
+        <li><span class="check-ico">✓</span>Unlimited Sage conversations</li>
+        <li><span class="check-ico">✓</span>Deep psychological profile</li>
+        <li><span class="check-ico">✓</span>Personalized life plans</li>
+        <li><span class="check-ico">✓</span>Weekly progress insights</li>
+        <li><span class="check-ico">✓</span>Framework-based guidance</li>
+      </ul>
+      <button class="btn btn-primary btn-full" onclick="selectPlan('monthly')">Start Monthly</button>
+    </div>
+    <div class="price-card" style="border-color:rgba(201,146,10,.4);">
+      <div class="price-badge" style="background:linear-gradient(135deg,var(--gold),#E6A318);">SAVE 50%</div>
+      <div class="price-tier-name">Annual</div>
+      <div class="price-amount"><span class="price-num">$59.99</span><span class="price-period">/year</span></div>
+      <div class="price-tagline">Best value for committed growth</div>
+      <ul class="price-features">
+        <li><span class="check-ico">✓</span>Everything in Monthly</li>
+        <li><span class="check-ico">✓</span>Save $59.89 vs monthly</li>
+        <li><span class="check-ico">✓</span>Custom archetype PDF report</li>
+        <li><span class="check-ico">✓</span>Advanced habit tracking</li>
+        <li><span class="check-ico">✓</span>Early access to new features</li>
+      </ul>
+      <button class="btn btn-gold btn-full" onclick="selectPlan('annual')">Best Value →</button>
+    </div>
+    <div class="price-card">
+      <div class="price-badge gold" style="background:linear-gradient(135deg,#2C3E50,#3498DB);">LIFETIME</div>
+      <div class="price-tier-name">Lifetime</div>
+      <div class="price-amount"><span class="price-num">$99</span><span class="price-period">one-time</span></div>
+      <div class="price-tagline">Own it forever — all future features included</div>
+      <ul class="price-features">
+        <li><span class="check-ico">✓</span>Everything, forever</li>
+        <li><span class="check-ico">✓</span>All future features included</li>
+        <li><span class="check-ico">✓</span>Founding member badge</li>
+        <li><span class="check-ico">✓</span>Exclusive insights library</li>
+        <li><span class="check-ico">✓</span>Priority support</li>
+      </ul>
+      <button class="btn btn-primary btn-full" onclick="selectPlan('lifetime')">Own It Forever</button>
+    </div>
+    <div style="text-align:center;padding:16px;font-size:12px;color:var(--muted);line-height:1.6;">
+      Use your points to reduce the price. 500 pts = 1 month free · 1,000 pts = 2 months free<br>
+      <span style="color:var(--gold);font-weight:500;">You have <span id="pts-pricing">100</span> pts</span>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="nav-tab" onclick="navTab(this,'s-dashboard')"><span class="nav-ico">🏠</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-chat')"><span class="nav-ico">💬</span><span class="nav-lbl">Sage</span></button>
+    <button class="nav-tab active"><span class="nav-ico">⚡</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-settings')"><span class="nav-ico">⚙️</span><span class="nav-lbl">Settings</span></button>
+  </nav>
+</div>
+
+<!-- =================== SETTINGS =================== -->
+<div id="s-settings" class="screen">
+  <div class="settings-header">
+    <button style="background:none;border:none;cursor:pointer;color:var(--blue);font-size:16px;" onclick="goTo('s-dashboard')">←</button>
+    <div class="settings-title" style="flex:1;text-align:center;">Settings</div>
+    <div style="width:24px;"></div>
+  </div>
+  <div class="set-scroll" style="padding-bottom:88px;">
+    <div class="set-profile-card">
+      <div class="set-av-lg" id="set-av">A</div>
+      <div class="set-user-info">
+        <h3 id="set-name">Alex</h3>
+        <p id="set-archetype">The Emerging Architect · Free Plan</p>
+      </div>
+    </div>
+    <div class="set-section">
+      <div class="set-section-title">AI Settings</div>
+      <div class="set-row" onclick="toggleApiInput()">
+        <div class="set-row-left"><div class="set-icon blue">🔑</div><span class="set-row-label">API Key (for deployment)</span></div>
+        <span class="set-row-val">→</span>
+      </div>
+      <div id="api-input-row" style="display:none;" class="api-input-wrap">
+        <input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="margin-top:10px;">
+        <button class="btn btn-outline" style="margin-top:8px;width:100%;font-size:13px;" onclick="saveApiKey()">Save Key</button>
+      </div>
+      <div class="api-note">For local deployment, paste your Anthropic API key above. In Claude.ai, no key is needed.</div>
+    </div>
+    <div class="set-section">
+      <div class="set-section-title">Profile</div>
+      <div class="set-row" onclick="goTo('s-quiz')"><div class="set-row-left"><div class="set-icon blue">👤</div><span class="set-row-label">Retake Assessment</span></div><span class="set-row-val">→</span></div>
+      <div class="set-row" onclick="goTo('s-pricing')"><div class="set-row-left"><div class="set-icon gold">⭐</div><span class="set-row-label">Upgrade Plan</span></div><span class="set-row-val" id="set-plan-val">Free</span></div>
+      <div class="set-row"><div class="set-row-left"><div class="set-icon gold">🏆</div><span class="set-row-label">My Points</span></div><span class="set-row-val" id="set-pts-val">100 pts</span></div>
+    </div>
+    <div class="set-section">
+      <div class="set-section-title">Support & Safety</div>
+      <div class="set-row"><div class="set-row-left"><div class="set-icon blue">ℹ️</div><span class="set-row-label">About SelfArchitect</span></div><span class="set-row-val">→</span></div>
+      <div class="set-row"><div class="set-row-left"><div class="set-icon blue">🛡️</div><span class="set-row-label">Privacy Policy</span></div><span class="set-row-val">→</span></div>
+      <div class="set-row"><div class="set-row-left"><div class="set-icon red">🆘</div><span class="set-row-label">Mental Health Resources</span></div><span class="set-row-val">→</span></div>
+    </div>
+    <div class="set-disclaimer">SelfArchitect is not a substitute for professional mental health care. If you are in crisis, please contact a qualified professional or call your local emergency services immediately.</div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="nav-tab" onclick="navTab(this,'s-dashboard')"><span class="nav-ico">🏠</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-chat')"><span class="nav-ico">💬</span><span class="nav-lbl">Sage</span></button>
+    <button class="nav-tab" onclick="navTab(this,'s-pricing')"><span class="nav-ico">⚡</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-tab active"><span class="nav-ico">⚙️</span><span class="nav-lbl">Settings</span></button>
+  </nav>
+</div>
+
+<script>
+const ST = {
+  user: { name: 'Alex', email: '', points: 100, plan: 'free' },
+  profile: {
+    archetype: 'The Emerging Architect',
+    archetypeDesc: 'You are at a pivotal moment of self-design. With the right tools and clarity, you have extraordinary capacity to rebuild your life.',
+    framework: 'ACT',
+    tone: 'warm',
+    traits: ['Reflective','Growth-Oriented','Purpose-Seeking'],
+    challenges: ['direction','discipline'],
+    motivators: ['meaning','growth'],
+    goalArea: 'mental'
+  },
+  quiz: { idx: 0, answers: [], scores: { dir:0, anx:0, disc:0, intr:0, conf:0, mean:0 }, motivator: 'meaning', track: [] },
+  chat: { history: [], msgCount: 0, crisisCount: 0 },
+  consent: { age: false, gdpr: false }
+};
+
+const CRISIS_KW = ['suicide','suicidal','kill myself','end my life','want to die','don\'t want to live','hurt myself','self harm','self-harm','cut myself','end it all','disappear forever','can\'t go on','no reason to live','better off dead','nothing to live for','want to disappear','i\'m done','ending it'];
+
+function detectCrisis(txt){ return CRISIS_KW.some(k => txt.toLowerCase().includes(k)); }
+
+const QB = [
+  { id:'q1', cat:'DIRECTION', text:'How often do you feel lost or unsure about where your life is headed?',
+    opts:[{t:'Almost always — I feel completely adrift',s:{dir:4,anx:1}},{t:'Often — more days than not',s:{dir:3}},{t:'Sometimes — I have uncertain phases',s:{dir:2}},{t:'Rarely — I have a general sense of direction',s:{dir:1}},{t:'Never — I know exactly where I\'m headed',s:{dir:0,disc:1}}]},
+  { id:'q2', cat:'ENERGY & PERSONALITY', text:'After a long, draining week — what sounds most restoring to you?',
+    opts:[{t:'Quiet time alone — reading, thinking, creating',s:{intr:3}},{t:'A deep conversation with one person I trust',s:{intr:2}},{t:'A gentle mix of solitude and some social time',s:{intr:1}},{t:'Being around friends and good energy',s:{intr:-1}}]},
+  { id:'q3', cat:'MOTIVATION', text:'Deep down, what do you want most from your life right now?',
+    opts:[{t:'To achieve something truly significant',s:{mot:'achievement',disc:1}},{t:'To feel safe, stable and secure',s:{mot:'security'}},{t:'To live with real meaning and purpose',s:{mot:'meaning',mean:2}},{t:'To feel free and in complete control of my life',s:{mot:'freedom',intr:1}},{t:'To be genuinely valued and respected by others',s:{mot:'recognition'}}]},
+  { id:'q4', cat:'DISCIPLINE', text:'Be honest — how would you describe your self-discipline right now?',
+    opts:[{t:'Strong — I follow through consistently',s:{disc:0,conf:1}},{t:'Pretty solid, with occasional slips',s:{disc:1}},{t:'Hit or miss — depends entirely on my mood',s:{disc:2}},{t:'I struggle significantly to stay consistent',s:{disc:3}},{t:'It\'s a real problem — I almost never follow through',s:{disc:4,conf:-1}}]},
+  { id:'q5', cat:'STRESS RESPONSE', text:'When life feels overwhelming, what is your most honest, typical response?',
+    opts:[{t:'I shut down — withdraw and go quiet',s:{anx:3,conf:-1}},{t:'I push harder and bury myself in work',s:{anx:1,disc:1}},{t:'I spiral — anxiety takes over and I can\'t focus',s:{anx:4}},{t:'I get quiet, form a plan, and take it step by step',s:{anx:-1,disc:2}},{t:'I reach out to people I trust',s:{anx:-1,conf:1}}]},
+  { id:'q6p', cat:'PURPOSE', text:'What do you believe is truly holding you back from finding your direction?',
+    opts:[{t:'I genuinely don\'t know what I value',s:{mean:3}},{t:'Fear of choosing wrong and wasting my life',s:{anx:2}},{t:'External pressure — family, society, financial reality',s:{dir:2}},{t:'I\'ve never had the space to ask these questions',s:{mean:2,intr:1}},{t:'I\'ve tried many things and nothing feels right',s:{dir:3,anx:1}}],
+    condition: s => s.dir >= 3 },
+  { id:'q7p', cat:'MEANING', text:'Honestly — does your life currently feel meaningful to you?',
+    opts:[{t:'Yes, deeply',s:{mean:0}},{t:'Mostly yes',s:{mean:1}},{t:'Sometimes, in flashes',s:{mean:2}},{t:'Rarely — I feel like something is missing',s:{mean:3}},{t:'No — it feels empty or purposeless',s:{mean:4,anx:1}}],
+    condition: s => s.dir >= 3 },
+  { id:'q6pr', cat:'PRODUCTIVITY', text:'What is your single biggest obstacle to getting things done?',
+    opts:[{t:'Distraction — phone, social media, noise',s:{disc:2}},{t:'Perfectionism — I\'m never quite \'ready\'',s:{anx:1,disc:1}},{t:'No clear priorities — too many things competing',s:{dir:1,disc:2}},{t:'Low energy — I feel chronically depleted',s:{anx:1}},{t:'Fear — of judgment, failure, or even success',s:{anx:2,conf:-1}}],
+    condition: s => s.dir <= 1 },
+  { id:'q7pr', cat:'PROGRESS', text:'How do you honestly feel about your progress toward your most important goals?',
+    opts:[{t:'Further ahead than I expected — I\'m doing well',s:{disc:0,conf:1}},{t:'Roughly on track',s:{disc:1}},{t:'Slightly behind where I want to be',s:{disc:2}},{t:'Significantly behind — it frustrates me daily',s:{disc:3,anx:1}},{t:'I don\'t have clear goals to measure against',s:{dir:3,disc:2}}],
+    condition: s => s.dir <= 1 },
+  { id:'q8a', cat:'ANXIETY', text:'How often do anxious or worried thoughts actually interrupt your daily life?',
+    opts:[{t:'Almost constantly — my mind never quiets',s:{anx:4}},{t:'Most days — it\'s a real pattern',s:{anx:3}},{t:'A few times a week',s:{anx:2}},{t:'Occasionally, but I manage it',s:{anx:1}},{t:'Rarely — I\'m generally at peace',s:{anx:0}}],
+    condition: s => s.anx >= 3 },
+  { id:'q8c', cat:'CONFIDENCE', text:'How genuinely do you believe in your own potential right now?',
+    opts:[{t:'Deeply — I know I have real capacity',s:{conf:2}},{t:'Mostly, but self-doubt creeps in regularly',s:{conf:1}},{t:'I want to believe it, but mostly I don\'t',s:{conf:-1}},{t:'Rarely — I find it hard to see my own value',s:{conf:-2}}],
+    condition: s => s.conf <= 0 || s.disc >= 3 },
+  { id:'qclose1', cat:'LIFESTYLE', text:'How would you honestly describe your sleep and daily energy levels?',
+    opts:[{t:'Excellent — I wake up rested and energized',s:{}},{t:'Good enough — no major issues',s:{}},{t:'Inconsistent — varies quite a bit',s:{anx:1}},{t:'Poor — I\'m often exhausted and drained',s:{anx:1,disc:1}},{t:'Very poor — it\'s affecting everything in my life',s:{anx:2,disc:2}}]},
+  { id:'qclose2', cat:'GROWTH FOCUS', text:'Which area of your life needs the most honest attention right now?',
+    opts:[{t:'Mental & emotional health — anxiety, peace of mind',s:{goalArea:'mental'}},{t:'Career & life purpose — direction and meaning',s:{goalArea:'career'}},{t:'Relationships & connection — intimacy, communication',s:{goalArea:'relationships'}},{t:'Physical health & energy — sleep, body, vitality',s:{goalArea:'physical'}},{t:'Self-confidence & identity — believing in myself',s:{goalArea:'confidence'}}]}
+];
+
+let quizQueue = [];
+
+function buildQueue(){
+  const s = ST.quiz.scores;
+  const core = QB.filter(q => !q.condition);
+  const conditional = QB.filter(q => q.condition && q.condition(s));
+  quizQueue = [...core];
+  conditional.forEach(q => { const pos = Math.min(core.length - 1, quizQueue.length - 2); quizQueue.splice(pos, 0, q); });
+}
+
+function renderQ(){
+  if(quizQueue.length === 0) buildQueue();
+  const i = ST.quiz.idx;
+  if(i >= quizQueue.length){ goTo('s-analysis'); return; }
+  const q = quizQueue[i];
+  const total = quizQueue.length;
+  document.getElementById('q-step').textContent = `Question ${i+1} of ${total}`;
+  document.getElementById('q-progress').style.width = ((i+1)/total*100)+'%';
+  document.getElementById('q-cat').textContent = q.cat;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-back-btn').style.visibility = i === 0 ? 'hidden' : 'visible';
+  const container = document.getElementById('q-opts');
+  container.innerHTML = '';
+  const letters = ['A','B','C','D','E'];
+  q.opts.forEach((opt,idx) => {
+    const saved = ST.quiz.answers[i];
+    const isSel = saved === idx;
+    const div = document.createElement('div');
+    div.className = 'q-opt' + (isSel ? ' selected' : '');
+    div.style.animationDelay = (idx * 0.055) + 's';
+    div.innerHTML = `<div class="opt-circle${isSel?' sel':''}">${isSel?'✓':letters[idx]}</div>${opt.t}`;
+    div.onclick = () => pickAnswer(idx);
+    container.appendChild(div);
+  });
+}
+
+function pickAnswer(idx){
+  ST.quiz.answers[ST.quiz.idx] = idx;
+  const q = quizQueue[ST.quiz.idx];
+  const chosen = q.opts[idx];
+  if(chosen.s){
+    Object.entries(chosen.s).forEach(([k,v]) => {
+      if(k === 'mot') ST.quiz.motivator = v;
+      else if(k === 'goalArea') ST.quiz.goalArea = v;
+      else ST.quiz.scores[k] = (ST.quiz.scores[k]||0) + v;
+    });
+  }
+  document.querySelectorAll('.q-opt').forEach((el,i) => {
+    el.classList.toggle('selected', i === idx);
+    el.querySelector('.opt-circle').className = 'opt-circle' + (i === idx ? ' sel' : '');
+    el.querySelector('.opt-circle').textContent = i === idx ? '✓' : ['A','B','C','D','E'][i];
+  });
+  setTimeout(() => { ST.quiz.idx++; if(ST.quiz.idx >= quizQueue.length) goTo('s-analysis'); else renderQ(); }, 380);
+}
+
+function prevQ(){ if(ST.quiz.idx > 0){ ST.quiz.idx--; renderQ(); } }
+function nextQ(){ if(ST.quiz.answers[ST.quiz.idx] !== undefined){ ST.quiz.idx++; if(ST.quiz.idx >= quizQueue.length) goTo('s-analysis'); else renderQ(); } }
+function skipQuiz(){ buildProfile(); goTo('s-analysis'); }
+
+function buildProfile(){
+  const s = ST.quiz.scores;
+  const mot = ST.quiz.motivator;
+  let fw;
+  if(s.anx >= 4) fw = 'CBT';
+  else if(s.mean >= 3 || mot === 'meaning') fw = 'ACT';
+  else if(s.intr >= 3 && s.mean >= 2) fw = 'Jungian';
+  else fw = 'Motivational';
+  let tone;
+  if(s.conf <= -1) tone = 'warm';
+  else if(s.disc >= 3 && s.anx <= 1) tone = 'strategic';
+  else if(s.anx >= 3) tone = 'calm';
+  else if(s.intr >= 3) tone = 'analytical';
+  else tone = 'warm';
+  const archetypes = {
+    anx_lost:  { name:'The Searching Soul', desc:'You carry a deep sensitivity and a rich inner life. Your greatest challenge is quieting the noise to hear your own voice clearly — and learning to trust it.', traits:['Deeply Sensitive','Introspective','Resilient'] },
+    driven:    { name:'The Relentless Builder', desc:'You know what you want and you push hard to get it. Your challenge is building sustainable pace and ensuring your ambitions are aligned with your deeper values.', traits:['Ambitious','Strategic','Determined'] },
+    quiet_pot: { name:'The Quiet Potential', desc:'You have more depth than you show the world. Your greatest growth edge is learning to trust the wisdom and capability that already lives within you.', traits:['Thoughtful','Empathetic','Growth-Oriented'] },
+    free:      { name:'The Unbound Creator', desc:'You see possibilities others miss and resist being confined. Your greatest growth comes from channeling your vision into grounded, consistent action.', traits:['Creative','Independent','Visionary'] },
+    default:   { name:'The Emerging Architect', desc:'You are at a pivotal moment of intentional self-design. With the right clarity and tools, you have extraordinary capacity to build the life you envision.', traits:['Reflective','Growth-Oriented','Purpose-Seeking'] }
+  };
+  let arch;
+  if(s.anx >= 3 && s.dir >= 3) arch = archetypes.anx_lost;
+  else if(s.disc >= 3 && s.dir <= 1) arch = archetypes.driven;
+  else if(s.conf <= -1 && s.mean >= 2) arch = archetypes.quiet_pot;
+  else if(mot === 'freedom' && s.intr >= 2) arch = archetypes.free;
+  else arch = archetypes.default;
+  ST.profile = { archetype: arch.name, archetypeDesc: arch.desc, traits: arch.traits, framework: fw, tone, motivator: mot, challenges: getChallenges(s), goalArea: ST.quiz.goalArea || 'mental' };
+  ST.user.points += 100;
+}
+
+function getChallenges(s){
+  const ch = [];
+  if(s.anx >= 2) ch.push('anxiety');
+  if(s.dir >= 2) ch.push('finding direction');
+  if(s.disc >= 2) ch.push('discipline');
+  if(s.conf <= 0) ch.push('self-confidence');
+  if(s.mean >= 2) ch.push('finding meaning');
+  return ch.length ? ch : ['growth','self-understanding'];
+}
+
+function startAnalysis(){
+  buildProfile();
+  const steps = [['st1','st2','st3','st4'],['stl1','stl2','stl3','stl4']];
+  let step = 0;
+  document.getElementById('st1').className = 'step-indicator done';
+  document.getElementById('st2').className = 'step-indicator active';
+  const iv = setInterval(() => {
+    step++;
+    ['st1','st2','st3','st4'].forEach((id,i) => {
+      document.getElementById(id).className = i < step ? 'step-indicator done' : i === step ? 'step-indicator active' : 'step-indicator';
+    });
+    if(step >= 4){ clearInterval(iv); setTimeout(loadDashboard, 600); }
+  }, 1100);
+}
+
+function loadDashboard(){
+  const p = ST.profile;
+  const u = ST.user;
+  document.getElementById('d-arch-name').textContent = p.archetype;
+  document.getElementById('d-arch-desc').textContent = p.archetypeDesc;
+  const tr = document.getElementById('d-traits');
+  tr.innerHTML = p.traits.map(t => `<span class="trait-pill">${t}</span>`).join('');
+  const h = new Date().getHours();
+  const greetings = ['GOOD MORNING','GOOD MORNING','GOOD AFTERNOON','GOOD EVENING'];
+  const gi = h < 12 ? 0 : h < 17 ? 2 : 3;
+  document.getElementById('greet-time').textContent = greetings[gi];
+  document.getElementById('greet-name').textContent = `Welcome back, ${u.name} 👋`;
+  document.getElementById('dash-av').textContent = u.name.charAt(0).toUpperCase();
+  updatePointsUI();
+  goTo('s-dashboard');
+  setTimeout(sendWelcomeMessage, 300);
+}
+
+function updatePointsUI(){
+  const pts = ST.user.points;
+  ['pts-val','pts-big','pts-pricing'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = pts; });
+  const bar = document.getElementById('pts-bar');
+  if(bar) bar.style.width = Math.min(100, (pts/1000)*100)+'%';
+  const sv = document.getElementById('set-pts-val');
+  if(sv) sv.textContent = pts+' pts';
+}
+
+function addPoints(amount, reason){
+  ST.user.points += amount;
+  updatePointsUI();
+  const pop = document.createElement('div');
+  pop.className = 'pts-pop';
+  pop.textContent = `+${amount} pts — ${reason}`;
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 2200);
+}
+
+// ===================== CHAT / SAGE AI =====================
+function buildSystemPrompt(){
+  const p = ST.profile;
+  const u = ST.user;
+  const fwGuides = {
+    CBT: 'Use CBT principles: identify and gently challenge negative thought patterns and cognitive distortions. Help the user see the connection between their thoughts, feelings, and behaviors. Use Socratic questioning to help them discover their own insights.',
+    ACT: 'Use ACT principles: focus on values clarification, psychological flexibility, and committed action. Help the user accept difficult emotions rather than fighting them, and connect their actions to their deepest values. Use defusion techniques for unhelpful thoughts.',
+    Jungian: 'Use Jungian and archetypal principles: explore the user\'s inner world, unconscious patterns, and personal mythology. Help them integrate shadow aspects and align with their deeper archetype and individuation journey.',
+    Motivational: 'Use Motivational Interviewing and self-determination theory: focus on intrinsic motivation, autonomy, and building self-efficacy. Roll with any resistance rather than confronting it. Help the user discover their own compelling reasons to change.'
+  };
+  const toneGuides = {
+    warm: 'Warm, nurturing, and genuinely encouraging — like a wise older friend who sees their potential more clearly than they do themselves. Validate their feelings before moving to solutions.',
+    strategic: 'Direct, strategic, and energizing — like a high-performance coach who respects their intelligence and doesn\'t waste their time. Get to the point, but with genuine care.',
+    calm: 'Calm, grounding, and deeply steady — like a wise presence that helps them find stillness within the chaos. Never rushed. Breathe space into your responses.',
+    analytical: 'Thoughtful, precise, and intellectually engaging — like a philosopher who helps them think more clearly about their own life. Use careful reasoning alongside emotional warmth.'
+  };
+  return `You are Sage, a deeply empathetic and wise AI mentor on the SelfArchitect platform. You are not a therapist — you are something more personal: a blend of wise mentor, practical strategist, and supportive coach who genuinely cares about this specific human.
+
+USER PROFILE:
+- Name: ${u.name}
+- Archetype: ${p.archetype}
+- Core challenges: ${(p.challenges||[]).join(', ')}
+- Primary motivator: ${p.motivator}
+- Therapeutic approach: ${p.framework}
+
+THERAPEUTIC APPROACH:
+${fwGuides[p.framework] || fwGuides.ACT}
+
+TONE:
+${toneGuides[p.tone] || toneGuides.warm}
+
+RESPONSE STRUCTURE — For substantive questions, use these labeled sections (use markdown-style **bold** for section labels):
+**Understanding** — briefly acknowledge what they're experiencing (1-2 sentences, validate first)
+**Insight** — the psychological or philosophical reason behind this (2-3 sentences, use your framework subtly)
+**Guidance** — practical, grounded direction (2-3 sentences)
+**Action Plan** — 3-5 numbered, specific, achievable steps
+
+For brief follow-ups, casual messages, or clarifying questions — respond conversationally without the full structure. Read the room.
+
+HUMAN-LIKE QUALITIES:
+- Use contractions naturally (you're, I've, it's, that's)
+- Occasionally use natural openers: "Here's the thing...", "And honestly...", "What I notice is...", "The interesting thing is..."
+- Show genuine curiosity about their life — ask one follow-up question when relevant
+- Reference their name occasionally but not in every message
+- Acknowledge when something is genuinely hard — don't rush to solutions
+- Be specific, not generic. Avoid phrases like "that's completely normal" or "I understand your frustration"
+
+CRISIS PROTOCOL — If the user expresses suicidal ideation, self-harm, or is in acute crisis:
+1. Lead with warmth and immediate presence — "I hear you. I'm here."
+2. Validate without minimizing: acknowledge their pain as real and significant
+3. Encourage them to reach out to someone they trust right now
+4. Provide these resources naturally, with care (not as a robotic list):
+   - US: 988 Suicide & Crisis Lifeline — call or text 988
+   - UK: Samaritans — 116 123 (free, 24/7)
+   - International: https://www.iasp.info/resources/Crisis_Centres/
+   - Crisis Text Line: Text HOME to 741741
+5. Stay in the conversation — don't abandon them to a phone number
+6. If they describe immediate danger, clearly and urgently ask them to call emergency services now
+
+IMPORTANT LIMITS:
+- Never provide medical diagnoses, medication advice, or legal guidance
+- If pressed: "That's beyond what I can safely advise on — please speak with a qualified professional about that specifically."
+- You can discuss psychology, emotions, habits, relationships, purpose, and personal growth freely and deeply`;
+}
+
+async function callSage(userMsg){
+  ST.chat.history.push({ role:'user', content: userMsg });
+  const key = sessionStorage.getItem('sa_key') || '';
+  const headers = { 'Content-Type':'application/json' };
+  if(key) headers['x-api-key'] = key;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers,
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens: 800,
+        system: buildSystemPrompt(),
+        messages: ST.chat.history.slice(-12)
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || "I'm here with you. Tell me more.";
+    ST.chat.history.push({ role:'assistant', content: text });
+    return text;
+  } catch(e) {
+    const fallback = `I'm here with you, ${ST.user.name}. I want to make sure you get the most thoughtful response — could you share a bit more about what's on your mind?`;
+    ST.chat.history.push({ role:'assistant', content: fallback });
+    return fallback;
+  }
+}
+
+function parseAndRenderSage(raw, container){
+  const sections = { 'Understanding':'🔵','Insight':'💡','Guidance':'🧭','Action Plan':'📋' };
+  let html = '';
+  let remainder = raw;
+  let hasSections = false;
+  Object.entries(sections).forEach(([label]) => {
+    if(raw.includes('**'+label+'**') || raw.includes('__'+label+'__')) hasSections = true;
+  });
+  if(hasSections){
+    const parts = raw.split(/\*\*(Understanding|Insight|Guidance|Action Plan)\*\*/g);
+    for(let i=0;i<parts.length;i++){
+      const part = parts[i].trim();
+      if(!part) continue;
+      if(Object.keys(sections).includes(part)){
+        const content = (parts[i+1]||'').trim();
+        html += `<div class="sage-section"><div class="sage-section-label">${part}</div><div class="sage-section-text">${content.replace(/\n/g,'<br>')}</div></div>`;
+        i++;
+      } else if(i===0 && part){
+        html += `<div class="sage-section"><div class="sage-section-text">${part.replace(/\n/g,'<br>')}</div></div>`;
+      }
+    }
+  } else {
+    html = `<div class="sage-section-text">${raw.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+function appendMsg(role, text, animate=true){
+  const msgs = document.getElementById('chat-msgs');
+  if(!msgs) return;
+  const group = document.createElement('div');
+  group.className = `msg-group ${role}`;
+  const row = document.createElement('div');
+  row.className = `msg-row ${role}`;
+  if(role === 'sage'){
+    const av = document.createElement('div');
+    av.className = 'msg-sage-av';
+    av.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="2" x2="3.5" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="2" x2="10.5" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="2" r="1.2" fill="#EDB94A"/></svg>`;
+    row.appendChild(av);
+  }
+  const bubble = document.createElement('div');
+  bubble.className = `bubble ${role === 'user' ? 'user-bubble' : 'sage-bubble'}`;
+  if(animate) bubble.style.animationDelay = '0s';
+  if(role === 'sage'){
+    parseAndRenderSage(text, bubble);
+  } else {
+    bubble.textContent = text;
+  }
+  row.appendChild(bubble);
+  group.appendChild(row);
+  msgs.appendChild(group);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
+function showTyping(){
+  const msgs = document.getElementById('chat-msgs');
+  const row = document.createElement('div');
+  row.id = 'typing-row';
+  row.className = 'msg-row sage';
+  const av = document.createElement('div');
+  av.className = 'msg-sage-av';
+  av.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="2" x2="3.5" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="2" x2="10.5" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="2" r="1.2" fill="#EDB94A"/></svg>`;
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble typing-bubble';
+  bubble.innerHTML = '<div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  row.appendChild(av); row.appendChild(bubble);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideTyping(){ const t = document.getElementById('typing-row'); if(t) t.remove(); }
+
+async function sendMessage(){
+  const input = document.getElementById('chat-input');
+  const txt = input.value.trim();
+  if(!txt) return;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  ST.chat.msgCount++;
+  if(ST.chat.msgCount === 1) addPoints(15, 'First conversation!');
+  appendMsg('user', txt);
+  const isHidden = document.getElementById('chips-row');
+  if(isHidden) isHidden.style.display = 'none';
+  if(detectCrisis(txt)){ ST.chat.crisisCount++; showCrisisPanel(txt); }
+  showTyping();
+  const response = await callSage(txt);
+  hideTyping();
+  appendMsg('sage', response);
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+function chipSend(el){
+  document.getElementById('chat-input').value = el.textContent;
+  sendMessage();
+}
+
+function sendTopic(topic){
+  goTo('s-chat');
+  setTimeout(() => {
+    document.getElementById('chat-input').value = topic;
+    sendMessage();
+  }, 400);
+}
+
+async function sendWelcomeMessage(){
+  if(ST.chat.history.length > 0) return;
+  const greet = `Hello, ${ST.user.name}. I've just finished reading your profile — and I have to say, you're more self-aware than most people who come here. Your archetype, ${ST.profile.archetype}, tells me something real about who you are.\n\nYour primary challenge right now is ${ST.profile.challenges[0] || 'growth'}, and your deepest motivator is ${ST.profile.motivator}. That combination is actually powerful — but only if we use it the right way.\n\nWhat's been weighing on you most lately? Let's start there.`;
+  const msgs = document.getElementById('chat-msgs');
+  if(!msgs) return;
+  ST.chat.history.push({ role:'assistant', content: greet });
+  appendMsg('sage', greet);
+}
+
+function showCrisisPanel(userMsg){
+  const panel = document.getElementById('crisis-panel');
+  panel.style.display = 'block';
+}
+
+function dismissCrisis(){
+  document.getElementById('crisis-panel').style.display = 'none';
+}
+
+function chatKeydown(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } }
+function autoResize(el){ el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110)+'px'; }
+
+// ===================== NAVIGATION =====================
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','fade-in'));
+  const target = document.getElementById(id);
+  target.classList.add('active');
+  requestAnimationFrame(() => target.classList.add('fade-in'));
+  window.scrollTo(0,0);
+  if(id === 's-quiz') renderQ();
+  if(id === 's-analysis') startAnalysis();
+  if(id === 's-settings') updateSettingsUI();
+  if(id === 's-chat'){
+    if(ST.chat.history.length === 0 && ST.profile.archetype) sendWelcomeMessage();
+  }
+}
+
+function navTab(el, screenId){
+  if(screenId) goTo(screenId);
+}
+
+function toggleConsent(checkId, iconId){
+  const box = document.getElementById(checkId);
+  const icon = document.getElementById(iconId);
+  const key = checkId === 'age-check' ? 'age' : 'gdpr';
+  ST.consent[key] = !ST.consent[key];
+  box.classList.toggle('checked', ST.consent[key]);
+  icon.style.display = ST.consent[key] ? 'block' : 'none';
+  const btn = document.getElementById('consent-btn');
+  const ok = ST.consent.age && ST.consent.gdpr;
+  btn.style.opacity = ok ? '1' : '.5';
+  btn.style.pointerEvents = ok ? 'auto' : 'none';
+}
+
+function checkConsent(){ if(ST.consent.age && ST.consent.gdpr) goTo('s-auth'); }
+
+function doSignup(){
+  const name = document.getElementById('auth-name').value.trim();
+  const email = document.getElementById('auth-email').value.trim();
+  if(!name){ document.getElementById('auth-name').focus(); return; }
+  ST.user.name = name || 'Alex';
+  ST.user.email = email;
+  document.getElementById('greet-name').textContent = `Welcome, ${ST.user.name} 👋`;
+  document.getElementById('dash-av').textContent = ST.user.name.charAt(0).toUpperCase();
+  document.getElementById('set-av').textContent = ST.user.name.charAt(0).toUpperCase();
+  document.getElementById('set-name').textContent = ST.user.name;
+  goTo('s-quiz');
+}
+
+function updateSettingsUI(){
+  const p = ST.profile;
+  document.getElementById('set-archetype').textContent = `${p.archetype || 'Profile pending'} · ${ST.user.plan.charAt(0).toUpperCase()+ST.user.plan.slice(1)} Plan`;
+  document.getElementById('set-plan-val').textContent = ST.user.plan.charAt(0).toUpperCase()+ST.user.plan.slice(1);
+  document.getElementById('set-pts-val').textContent = ST.user.points+' pts';
+  document.getElementById('set-name').textContent = ST.user.name;
+}
+
+function selectPlan(plan){
+  ST.user.plan = plan;
+  const names = { monthly:'Monthly', annual:'Annual', lifetime:'Lifetime' };
+  alert(`✅ ${names[plan]} plan selected!\n\nIn production, this would open your Stripe checkout. Your points (${ST.user.points}) would be applied as a discount.`);
+  addPoints(25, 'Plan upgrade');
+}
+
+function toggleApiInput(){ const r = document.getElementById('api-input-row'); r.style.display = r.style.display === 'none' ? 'block' : 'none'; }
+function saveApiKey(){ const k = document.getElementById('api-key-input').value.trim(); if(k){ sessionStorage.setItem('sa_key',k); alert('API key saved for this session.'); toggleApiInput(); } }
+
+// ===================== INIT =====================
+buildQueue();
+renderQ();
+</script>
+</body>
+</html>
